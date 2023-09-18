@@ -39,6 +39,7 @@ class MeasuredGraphQLClient(GraphQLClient):
 
 
 class GraphQLLocust(User):
+    abstract = True
     endpoint = ""
 
     def __init__(self, *args, **kwargs):

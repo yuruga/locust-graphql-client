@@ -22,7 +22,7 @@ class GraphQLClient:
 # Usage
 
 ```python
-from locust import HttpLocust, TaskSet, task
+from locust import TaskSet, task
 from locustgraphqlclient import GraphQLLocust
 
 
@@ -82,7 +82,8 @@ class UserBehavior(TaskSet):
 
 
 class WebsiteUser(GraphQLLocust):
-    task_set = UserBehavior
+    endpoint = "/graphql"
+    tasks = [UserBehavior]
     min_wait = 5000
     max_wait = 9000
 
