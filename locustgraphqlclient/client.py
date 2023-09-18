@@ -17,14 +17,14 @@ class MeasuredGraphQLClient(GraphQLClient):
             result = json.loads(data)
         except (urllib.error.HTTPError, urllib.error.URLError, ValueError, JSONDecodeError) as e:
             total_time = int((time.time() - start_time) * 1000)
-            events.request_failure.fire(
+            events.request.fire(
                 request_type=type, name=label, response_time=total_time, exception=e
             )
 
         else:
             total_time = int((time.time() - start_time) * 1000)
             if "errors" in result:
-                events.request_failure.fire(
+                events.request.fire(
                     request_type=type,
                     name=label,
                     response_time=total_time,
@@ -32,7 +32,7 @@ class MeasuredGraphQLClient(GraphQLClient):
                     response_length=len(result),
                 )
             else:
-                events.request_success.fire(
+                events.request.fire(
                     request_type=type, name=label, response_time=total_time, response_length=0
                 )
         return result
