@@ -37,7 +37,10 @@ class MeasuredGraphQLClient(GraphQLClient):
                 )
             else:
                 self._request_event.fire(
-                    request_type=type, name=label, response_time=total_time, response_length=0
+                    request_type=type,
+                    name=label,
+                    response_time=total_time,
+                    response_length=len(result),
                 )
         return result
 
