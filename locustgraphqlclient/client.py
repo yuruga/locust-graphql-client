@@ -18,6 +18,7 @@ class MeasuredGraphQLClient(GraphQLClient):
         result = None
         try:
             data = super().execute(query, variables)
+            data_length = len(data) or 0
             result = json.loads(data)
         except (urllib.error.HTTPError, urllib.error.URLError, ValueError, JSONDecodeError) as e:
             total_time = int((time.time() - start_time) * 1000)
@@ -33,14 +34,14 @@ class MeasuredGraphQLClient(GraphQLClient):
                     name=label,
                     response_time=total_time,
                     exception=result["errors"],
-                    response_length=len(result),
+                    response_length=data_length,
                 )
             else:
                 self._request_event.fire(
                     request_type=type,
                     name=label,
                     response_time=total_time,
-                    response_length=len(result),
+                    response_length=data_length,
                 )
         return result
 
